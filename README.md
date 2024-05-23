@@ -1,4 +1,4 @@
-<img src="app/src/main/res/mipmap-hdpi/ic_launcher_round.png" alt="Blanket" width="128" height="128" align="left"/>
+<img src="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" alt="Blanket" width="128" height="128" align="left"/>
 
 
 # Blanket Mobile
