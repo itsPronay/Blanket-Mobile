@@ -7,8 +7,11 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.saveable
 import com.pronaycoding.blanket_mobile.R
 
 
@@ -17,7 +20,7 @@ class BlanketViewModel(
 //    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-//    var setMusicValue by savedStateHandle.saveable { mutableStateOf(true) }
+//    var playOrPause by savedStateHandle.saveable { mutableStateOf(true) }
 
     fun getDrawerItems(): List<DrawerItems> {
         return listOf(
