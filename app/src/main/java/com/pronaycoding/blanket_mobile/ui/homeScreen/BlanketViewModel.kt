@@ -1,4 +1,4 @@
-package com.pronaycoding.blanket_mobile
+package com.pronaycoding.blanket_mobile.ui.homeScreen
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
+import com.pronaycoding.blanket_mobile.R
 
 
 //@HiltViewModel

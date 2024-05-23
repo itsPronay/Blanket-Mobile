@@ -1,4 +1,4 @@
-package com.pronaycoding.blanket_mobile
+package com.pronaycoding.blanket_mobile.ui.homeScreen
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
@@ -65,13 +65,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pronaycoding.blanket_mobile.R
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     cardLists: List<CardItems>,
-    drawerItems: List<DrawerItems>
+    drawerItems: List<DrawerItems>,
+//    onSettingsClicked :
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -203,6 +205,13 @@ fun CardItemsView(
         mutableFloatStateOf(0f)
     }
 
+
+    //to set the tint of icon
+    var inverseSurfaceColor = MaterialTheme.colorScheme.inverseSurface
+    var primaryColor = MaterialTheme.colorScheme.primary
+    var iconTintColor by remember { mutableStateOf(inverseSurfaceColor) }
+
+
     Column(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -224,7 +233,8 @@ fun CardItemsView(
                     contentDescription = "",
                     modifier = Modifier
                         .padding(16.dp)
-                        .weight(.2f)
+                        .weight(.2f),
+                    tint = iconTintColor
                 )
                 Column(
                     modifier = Modifier
@@ -240,13 +250,16 @@ fun CardItemsView(
                             audioSlider = it
                             if (audioSlider != 0F) {
                                 audio.start()
+                                iconTintColor = primaryColor
                             } else{
-
                                 audio.pause()
+                                iconTintColor = inverseSurfaceColor
                             }
                             audio.setVolume(
                                 audioSlider, audioSlider
                             ) // Set volume for left and right channels
+
+
                         }, modifier = Modifier.fillMaxWidth()
                     )
                 }
