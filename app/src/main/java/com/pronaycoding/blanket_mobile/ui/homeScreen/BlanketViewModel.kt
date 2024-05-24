@@ -13,6 +13,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.pronaycoding.blanket_mobile.R
+import com.pronaycoding.blanket_mobile.nav.Routes
 
 
 //@HiltViewModel
@@ -49,7 +50,7 @@ class BlanketViewModel(
 
             CardItems.CoffeeShop,
             CardItems.FirePlace,
-            CardItems.BusyRestaurant,
+//            CardItems.BusyRestaurant,
 
             CardItems.PinkNoise,
             CardItems.WhiteNoise,
@@ -205,11 +206,13 @@ sealed class CardItems(
 
 sealed class DrawerItems(
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val route : String = ""
 ) {
     data object Home : DrawerItems(
         title = "Home",
-        icon = Icons.Default.Home
+        icon = Icons.Default.Home,
+        route = Routes.Home.name
     )
 
     data object SourceCode : DrawerItems(
@@ -219,7 +222,8 @@ sealed class DrawerItems(
 
     data object About : DrawerItems(
         title = "About",
-        icon = Icons.Default.Info
+        icon = Icons.Default.Info,
+        route = Routes.AboutUs.name
     )
 
     data object RequestFeature : DrawerItems(
@@ -234,7 +238,8 @@ sealed class DrawerItems(
 
     data object Settings : DrawerItems(
         title = "Settings",
-        icon = Icons.Default.Settings
+        icon = Icons.Default.Settings,
+        route = Routes.Settings.name
     )
 
 

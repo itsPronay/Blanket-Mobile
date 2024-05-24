@@ -15,31 +15,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DrawerDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -48,7 +40,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -64,7 +55,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pronaycoding.blanket_mobile.R
 import kotlinx.coroutines.launch
@@ -74,6 +64,7 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     cardLists: List<CardItems>,
     drawerItems: List<DrawerItems>,
+    navigateTo: (route: String) -> Unit
 //    onSettingsClicked :
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -122,7 +113,13 @@ fun MainScreen(
                                 }
                             },
                             selected = index == selectedIndex,
-                            onClick = { selectedIndex = index })
+                            onClick = {
+                                selectedIndex = index
+                                scope.launch {
+                                    drawerState.close()
+                                }
+                                navigateTo.invoke(drawerItem.route)
+                            })
                     }
                 }
             }
@@ -169,9 +166,9 @@ fun MainScreen(
 
                 items(cardLists) { cardItem ->
                     if (cardItem.firstInType) {
-                        TypeView(typeText = cardItem.type)
+                        TitleCardView(typeText = cardItem.type)
                     }
-                    if(cardItem.title != ""){
+                    if (cardItem.title != "") {
                         CardItemsView(
                             cardItem = cardItem
                         )
@@ -259,7 +256,7 @@ fun CardItemsView(
                             if (audioSlider != 0F) {
                                 audio.start()
                                 iconTintColor = primaryColor
-                            } else{
+                            } else {
                                 audio.pause()
                                 iconTintColor = inverseSurfaceColor
                             }
@@ -279,7 +276,7 @@ fun CardItemsView(
 
 @Composable
 //@Preview (showBackground = true)
-fun TypeView(
+fun TitleCardView(
     modifier: Modifier = Modifier,
     typeText: String,
 ) {
@@ -308,13 +305,12 @@ fun AddCustomSound(
     detectButtonClick: () -> Unit
 ) {
     Column {
-        TypeView(typeText = "Custom")
+        TitleCardView(typeText = "Custom")
         OutlinedButton(modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
             onClick = { detectButtonClick.invoke() }) {
             Text(text = "Add custom sound")
-
         }
     }
 }
