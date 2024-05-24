@@ -47,6 +47,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -199,19 +200,26 @@ fun CardItemsView(
     cardItem: CardItems
 ) {
     val context = LocalContext.current
-    val audio: MediaPlayer = MediaPlayer.create(context, cardItem.audioSource)
-    audio.isLooping = true
+    val audio = remember(cardItem.audioSource) {
+        MediaPlayer.create(context, cardItem.audioSource).apply {
+            isLooping = true
+        }
+    }
     var audioSlider by rememberSaveable {
         mutableFloatStateOf(0f)
     }
-
 
     //to set the tint of icon
     var inverseSurfaceColor = MaterialTheme.colorScheme.inverseSurface
     var primaryColor = MaterialTheme.colorScheme.primary
     var iconTintColor by remember { mutableStateOf(inverseSurfaceColor) }
 
-
+    // Release the MediaPlayer when the composable is disposed
+    DisposableEffect(Unit) {
+        onDispose {
+            audio.release()
+        }
+    }
     Column(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
