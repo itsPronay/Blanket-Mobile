@@ -27,6 +27,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,6 +100,9 @@ fun AboutScreen(
             Card(
                 onClick = { /*TODO*/ },
                 elevation = CardDefaults.cardElevation(10.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF27a157).copy(alpha = .6f)
+                ),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
@@ -196,6 +200,8 @@ fun AboutScreen(
         }
     }
 }
+
+
 
 @Composable
 @Preview(showSystemUi = true)

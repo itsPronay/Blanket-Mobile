@@ -7,8 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pronaycoding.blanket_mobile.ui.about.AboutScreen
 import com.pronaycoding.blanket_mobile.ui.homeScreen.CardItems
+import com.pronaycoding.blanket_mobile.ui.homeScreen.Dashboard
 import com.pronaycoding.blanket_mobile.ui.homeScreen.DrawerItems
-import com.pronaycoding.blanket_mobile.ui.homeScreen.MainScreen
+//import com.pronaycoding.blanket_mobile.ui.homeScreen.MainScreen
 import com.pronaycoding.blanket_mobile.ui.settings.SettingsScreen
 
 @Composable
@@ -20,7 +21,7 @@ fun Navigation(
 
     NavHost(navController = navController, startDestination = Routes.Home.name) {
         composable(Routes.Home.name) {
-            MainScreen(cardLists = cardItems, drawerItems = drawerItems,
+            Dashboard(cardLists = cardItems, drawerItems = drawerItems,
                 navigateTo = {
                     navController.navigate(it)
                 })

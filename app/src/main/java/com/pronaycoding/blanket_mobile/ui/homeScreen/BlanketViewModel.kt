@@ -1,5 +1,10 @@
 package com.pronaycoding.blanket_mobile.ui.homeScreen
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.ExitToApp
@@ -7,13 +12,20 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.pronaycoding.blanket_mobile.R
 import com.pronaycoding.blanket_mobile.nav.Routes
+import com.pronaycoding.blanket_mobile.ui.theme.styles.BlanketTopBar
+import com.pronaycoding.blanket_mobile.ui.theme.styles.PrettyCardView
+import com.pronaycoding.blanket_mobile.ui.theme.styles.TitleCardView
 
 
 //@HiltViewModel
@@ -23,6 +35,30 @@ class BlanketViewModel(
 
 //    var playOrPause by savedStateHandle.saveable { mutableStateOf(true) }
 
+//    var initializePlayer =
+    val songList = mutableListOf(
+        R.raw.nature_rain,
+        R.raw.nature_summernight,
+        R.raw.nature_wind,
+        R.raw.nature_waves,
+        R.raw.nature_stream,
+        R.raw.nature_storm,
+        R.raw.nature_birds,
+        R.raw.travel_train,
+        R.drawable.sailboat,
+        R.raw.travel_city,
+        R.raw.interior_coffeeshop,
+        R.raw.interior_fireplace,
+        R.raw.busy_restaurant,
+        R.raw.noise_pink_noise,
+        R.raw.noise_white_noise,
+        R.raw.noise_white_noise,
+    )
+    fun getSongs() : List<Int>{
+        return listOf(
+
+        )
+    }
     fun getDrawerItems(): List<DrawerItems> {
         return listOf(
             DrawerItems.Home,
@@ -244,3 +280,7 @@ sealed class DrawerItems(
 
 
 }
+
+
+
+
