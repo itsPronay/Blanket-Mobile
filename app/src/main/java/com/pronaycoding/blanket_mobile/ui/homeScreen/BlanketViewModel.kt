@@ -26,13 +26,25 @@ import com.pronaycoding.blanket_mobile.nav.Routes
 import com.pronaycoding.blanket_mobile.ui.theme.styles.BlanketTopBar
 import com.pronaycoding.blanket_mobile.ui.theme.styles.PrettyCardView
 import com.pronaycoding.blanket_mobile.ui.theme.styles.TitleCardView
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 
 //@HiltViewModel
 class BlanketViewModel(
 //    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    private val _homeUiState =
+        MutableStateFlow<HomeUiState>(HomeUiState.Initial)
+    val homeUiState: StateFlow<HomeUiState> get() = _homeUiState
+    fun setLoading (){
+        _homeUiState.value = HomeUiState.Loading
+    }
+    fun setInitial(){
+        _homeUiState.value = HomeUiState.Initial
+    }
 
+//    fun initializePlayer
 //    var playOrPause by savedStateHandle.saveable { mutableStateOf(true) }
 
 //    var initializePlayer =
@@ -95,6 +107,12 @@ class BlanketViewModel(
         )
     }
 
+}
+sealed class HomeUiState {
+    data object Initial : HomeUiState()
+    data object Loading : HomeUiState()
+//    object DeletedSuccessfully : HomeUiState()
+    data class ShowError(val message: Int) : HomeUiState()
 }
 
 sealed class CardItems(
