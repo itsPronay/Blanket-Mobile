@@ -2,6 +2,7 @@ package com.pronaycoding.blanket_mobile.ui.theme.styles
 
 //import androidx.compose.foundation.layout.ColumnScopeInstance.align
 //import androidx.compose.foundation.layout.FlowRowScopeInstance.align
+import android.content.Context
 import android.media.MediaPlayer
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -55,59 +57,35 @@ import kotlinx.coroutines.withContext
 @Composable
 fun PrettyCardView(
     cardItem: CardItems,
+    viewModel: BlanketViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    var audio: MediaPlayer? by remember {
-        mutableStateOf(null)
-    }
-    var isPlaying by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var isPlaying by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
 
-    suspend fun initializeMediaPlayer(): MediaPlayer {
-        val completableDeferred = CompletableDeferred<MediaPlayer>()
+    var sliderValue by rememberSaveable { mutableFloatStateOf(0F) }
 
-        CoroutineScope(Dispatchers.Default).launch {
-            val mediaPlayer = MediaPlayer.create(context, cardItem.audioSource).apply {
-                isLooping = true
-            }
-            completableDeferred.complete(mediaPlayer)
-        }
-        return completableDeferred.await()
-    }
-
-    var sliderValue by rememberSaveable {
-        mutableFloatStateOf(0F)
+    LaunchedEffect(Unit) {
+        viewModel.initializeSoundPool(context, viewModel.getSongs())
     }
 
     LaunchedEffect(sliderValue) {
         if (sliderValue > 0F) {
-            if (audio == null) {
-                audio = initializeMediaPlayer()
-            }
-            audio?.start()
+            viewModel.playSound(R.raw.a_nature_thunder, sliderValue)
             isPlaying = true
         } else {
-//            audio?.stop()
-            audio?.pause()
+            viewModel.pauseSound(cardItem.audioSource)
             isPlaying = false
         }
-        audio?.setVolume(sliderValue, sliderValue) // Set volume within LaunchedEffect
+        viewModel.setVolume(cardItem.audioSource, sliderValue)
     }
 
     Card(
         modifier = Modifier
             .padding(horizontal = 24.dp, vertical = 4.dp)
             .fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Unspecified
-
-        )
-//        elevation = CardDefaults.cardElevation(1.dp)
+        colors = CardDefaults.cardColors(containerColor = Color.Unspecified)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -136,8 +114,7 @@ fun PrettyCardView(
                 value = sliderValue,
                 onValueChange = { newValue ->
                     sliderValue = newValue
-//                    audio?.setVolume(sliderValue, sliderValue)
-
+                    viewModel.setVolume(cardItem.audioSource, newValue)
                 },
                 valueRange = 0f..1f,
                 modifier = Modifier
@@ -146,20 +123,4 @@ fun PrettyCardView(
             )
         }
     }
-
-//    fun setVolume(sliderValue : Float)  {
-//        audio?.setVolume(sliderValue, sliderValue)
-//    }
 }
-
-@Composable
-@Preview(showSystemUi = true)
-fun PreviewCard(modifier: Modifier = Modifier) {
-    val viewmodel: BlanketViewModel = viewModel()
-    var list = viewmodel.getCardList()
-
-    BlanketmobileTheme {
-        PrettyCardView(cardItem = list.get(3))
-    }
-}
-

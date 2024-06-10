@@ -1,5 +1,7 @@
 package com.pronaycoding.blanket_mobile.ui.homeScreen
 
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,11 +10,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.pronaycoding.blanket_mobile.ui.theme.styles.BlanketTopBar
 import com.pronaycoding.blanket_mobile.ui.theme.styles.PrettyCardView
@@ -40,8 +45,16 @@ fun Dashboard(
     drawerItems: List<DrawerItems>,
     navigateTo: (route: String) -> Unit,
 //    audioPlayer: ExoPlayer?,
+    viewModel: BlanketViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 
 ) {
+//    val context = LocalContext.current
+
+    val context = LocalContext.current
+//
+//    LaunchedEffect(Unit) {
+//        viewModel.initializeSoundPool(context, viewModel.getSongs())
+//    }
 
     var scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -81,8 +94,5 @@ fun Dashboard(
     }
 
 }
-
-
-
 
 

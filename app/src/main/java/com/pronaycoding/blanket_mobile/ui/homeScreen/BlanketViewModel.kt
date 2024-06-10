@@ -1,10 +1,9 @@
 package com.pronaycoding.blanket_mobile.ui.homeScreen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import android.content.Context
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.SoundPool
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.ExitToApp
@@ -12,64 +11,143 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.saveable
+import androidx.lifecycle.viewModelScope
 import com.pronaycoding.blanket_mobile.R
 import com.pronaycoding.blanket_mobile.nav.Routes
-import com.pronaycoding.blanket_mobile.ui.theme.styles.BlanketTopBar
-import com.pronaycoding.blanket_mobile.ui.theme.styles.PrettyCardView
-import com.pronaycoding.blanket_mobile.ui.theme.styles.TitleCardView
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 
 //@HiltViewModel
 class BlanketViewModel(
+//    context : Context
 //    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _homeUiState =
-        MutableStateFlow<HomeUiState>(HomeUiState.Initial)
-    val homeUiState: StateFlow<HomeUiState> get() = _homeUiState
-    fun setLoading (){
-        _homeUiState.value = HomeUiState.Loading
+
+    private var soundPool: SoundPool? = null
+    private val soundMap = mutableMapOf<Int, Int>()
+
+    fun initializeSoundPool(context: Context, audioSources: List<Int>) {
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(5)
+            .setAudioAttributes(audioAttributes)
+            .build()
+
+        audioSources.forEach { audioSource ->
+            val soundId = soundPool?.load(context, audioSource, 1)
+            soundId?.let {
+                soundMap[audioSource] = it
+            }
+        }
     }
-    fun setInitial(){
-        _homeUiState.value = HomeUiState.Initial
+
+    fun playSound(audioSource: Int, volume: Float) {
+        soundMap[audioSource]?.let { soundId ->
+            soundPool?.play(soundId, volume, volume, 1, 0, 1f)
+        }
     }
+
+    fun pauseSound(audioSource: Int) {
+        // SoundPool does not have a direct pause method for specific sound IDs.
+        // Consider implementing a mechanism to keep track of the stream ID.
+    }
+
+    fun setVolume(audioSource: Int, volume: Float) {
+        // SoundPool does not have a direct method to set volume for specific sound IDs.
+        // Consider re-playing the sound with the new volume.
+    }
+
+    fun resumeSound(audioSource: Int) {
+        // SoundPool does not have a direct resume method for specific sound IDs.
+        // Implementing a mechanism to track and resume streams is necessary.
+    }
+
+    fun releaseSoundPool() {
+        soundPool?.release()
+        soundPool = null
+        soundMap.clear()
+    }
+
+
+
+
+//    private var mediaPlayer: MediaPlayer? = null
+//
+////    init {
+////        mediaPlayer.isLooping = true // Set looping if desired
+////    }
+//    fun initializeMediaplyer(context: Context, sound : Int) : Boolean{
+//        var player : MediaPlayer? = null
+//        viewModelScope.launch {
+//            player = MediaPlayer.create(context, sound) // Replace with your audio source
+//            mediaPlayer = (player as MediaPlayer?)!!
+//        }
+//        return if (player == null) false else true
+//    }
+//
+//
+//    fun setSound(sliderValue : Float){
+//        mediaPlayer?.setVolume(sliderValue, sliderValue)
+//    }
+//    fun start(){
+//        mediaPlayer?.start()
+//    }
+//    fun stop(){
+//        mediaPlayer?.stop()
+//    }
+//    fun pause(){
+//        mediaPlayer?.pause()
+//    }
+//     mediaPlayer = MediaPlayer.create(context, R.raw.your_audio_source) // Replace with your audio source
+//
+
+
 
 //    fun initializePlayer
 //    var playOrPause by savedStateHandle.saveable { mutableStateOf(true) }
 
 //    var initializePlayer =
     val songList = mutableListOf(
-        R.raw.nature_rain,
-        R.raw.nature_summernight,
-        R.raw.nature_wind,
-        R.raw.nature_waves,
-        R.raw.nature_stream,
-        R.raw.nature_storm,
-        R.raw.nature_birds,
-        R.raw.travel_train,
-        R.drawable.sailboat,
-        R.raw.travel_city,
-        R.raw.interior_coffeeshop,
-        R.raw.interior_fireplace,
-        R.raw.busy_restaurant,
-        R.raw.noise_pink_noise,
-        R.raw.noise_white_noise,
-        R.raw.noise_white_noise,
+
+
+//    R.raw.nature_rain,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+    R.raw.a_nature_thunder,
+//        R.raw.nature_wind,
+//        R.raw.nature_waves,
+//        R.raw.nature_stream,
+//        R.raw.nature_storm,
+//        R.raw.nature_birds,
+//        R.raw.travel_train,
+//        R.drawable.sailboat,
+//        R.raw.travel_city,
+//        R.raw.interior_coffeeshop,
+//        R.raw.interior_fireplace,
+//        R.raw.busy_restaurant,
+//        R.raw.noise_pink_noise,
+//        R.raw.noise_white_noise,
+//        R.raw.noise_white_noise,
     )
     fun getSongs() : List<Int>{
-        return listOf(
-
-        )
+        return songList
     }
     fun getDrawerItems(): List<DrawerItems> {
         return listOf(

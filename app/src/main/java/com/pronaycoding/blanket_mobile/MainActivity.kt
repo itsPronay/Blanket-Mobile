@@ -67,6 +67,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        val viewModel = BlanketViewModel()
+//        viewModel.initializeSoundPool(this, viewModel.getSongs())
+
 
         audio1 = MediaPlayer.create(this, R.raw.nature_rain).apply {
             isLooping = true
@@ -104,6 +107,57 @@ class MainActivity : ComponentActivity() {
         }
 
 
+        audio1 = MediaPlayer.create(this, R.raw.nature_rain).apply {
+            isLooping = true
+        }
+        audio2 = MediaPlayer.create(this, R.raw.nature_wind).apply {
+            isLooping = true
+        }
+        audio3 = MediaPlayer.create(this, R.raw.nature_storm).apply {
+            isLooping = true
+        }
+        audio4 = MediaPlayer.create(this, R.raw.nature_waves).apply {
+            isLooping = true
+        }
+        audio5 = MediaPlayer.create(this, R.raw.nature_stream).apply {
+            isLooping = true
+        }
+        audio6 = MediaPlayer.create(this, R.raw.nature_birds).apply {
+            isLooping = true
+        }
+        audio7 = MediaPlayer.create(this, R.raw.nature_summernight).apply {
+            isLooping = true
+        }
+
+
+
+
+        audio8 = MediaPlayer.create(this, R.raw.travel_train).apply {
+            isLooping = true
+        }
+        audio9 = MediaPlayer.create(this, R.raw.boat).apply {
+            isLooping = true
+        }
+        audio10 = MediaPlayer.create(this, R.raw.travel_train).apply {
+            isLooping = true
+        }
+
+
+        audio11 = MediaPlayer.create(this, R.raw.interior_coffeeshop).apply {
+            isLooping = true
+        }
+        audio12 = MediaPlayer.create(this, R.raw.interior_fireplace).apply {
+            isLooping = true
+        }
+        audio13 = MediaPlayer.create(this, R.raw.busy_restaurant).apply {
+            isLooping = true
+        }
+        audio14 = MediaPlayer.create(this, R.raw.noise_pink_noise).apply {
+            isLooping = true
+        }
+        audio15 = MediaPlayer.create(this, R.raw.noise_white_noise).apply {
+            isLooping = true
+        }
         audio11 = MediaPlayer.create(this, R.raw.interior_coffeeshop).apply {
             isLooping = true
         }
