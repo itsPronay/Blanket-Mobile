@@ -1,8 +1,9 @@
 <img src="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" alt="Blanket" width="128" height="128" align="left"/>
 
-
 # Blanket Mobile
 **Listen to different sounds** 
+
+## This app was developed at an early stage of my programming, so it is not well structured. If you would like to see a cleaner version - see [napify](https://github.com/itsPronay/napify), Contributions are welcome :)
 
 https://github.com/itsPronay/Blanket-mobile/assets/78101731/eb4fddfe-4a98-4c4c-8faa-e7f9efa790d5
 
